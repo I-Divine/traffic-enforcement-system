@@ -17,18 +17,21 @@ public class Violation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-private UUID violationId;
-private UUID vehicleId;
-@ManyToOne
-@JoinColumn(name = "officer_id", nullable = false)
-private Officers officer;
-private String plateNumber;
-@ManyToOne
-@JoinColumn(name = "owner_id", nullable = false)
-private Owners owner;
-private LocalDateTime violationDate;
-private String gps_coordinates;
-private Float fineAmount;
-private String state;
-private String lga;
+    private UUID violationId;
+
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id", nullable = false)
+    private Vehicles vehicle;
+
+    @ManyToOne
+    @JoinColumn(name = "officer_id", nullable = false)
+    private Officers officer;
+
+    private String plateNumber;
+    private LocalDateTime violationDate;
+    private String gpsCoordinates;
+    private Float fineAmount;
+    private String status;
+    private String state;
+    private String lga;
 }

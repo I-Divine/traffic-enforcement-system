@@ -27,7 +27,7 @@ public class UserDetails implements org.springframework.security.core.userdetail
     }
 
     public static UserDetails build(Users user){
-        GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().toString());
+        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole().toString());
 
         return new UserDetails(
                 user.getUserId(),

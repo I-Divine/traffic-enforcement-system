@@ -19,8 +19,6 @@ public class Owners {
     private Users owner;
     @OneToMany(mappedBy = "owner")
     private List<Vehicles> vehicles;
-    @OneToMany(mappedBy = "owner")
-    private List<Violation> violations;
     private String address;
     private String city;
     private String state;

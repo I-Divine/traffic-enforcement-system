@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.project.traffic_enforcement.dto.UserProfileResponse;
 import com.project.traffic_enforcement.services.UserProfileService;
@@ -18,6 +19,7 @@ public class UserController {
     private final UserProfileService userProfileService;
 
     @GetMapping("/me")
+    @PreAuthorize("hasAnyRole('OWNERS','ADMIN','ROAD_OFFICERS','APPEAL_OFFICERS')")
     public ResponseEntity<UserProfileResponse> getCurrentUser() {
         return ResponseEntity.ok(userProfileService.getCurrentUserProfile());
     }
