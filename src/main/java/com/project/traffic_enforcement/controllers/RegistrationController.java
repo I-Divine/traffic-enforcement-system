@@ -2,6 +2,7 @@ package com.project.traffic_enforcement.controllers;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RegistrationController {
 
+    @Autowired
     private final RegistrationService registrationService;
 
     @PutMapping("/owners/{ownerId}")

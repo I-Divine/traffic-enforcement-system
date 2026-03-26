@@ -14,22 +14,40 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.traffic_enforcement.dto.PaymentRequest;
 import com.project.traffic_enforcement.dto.PaymentResponse;
 import com.project.traffic_enforcement.dto.PaymentTotalResponse;
+import com.project.traffic_enforcement.dto.PaystackInitializeRequest;
+import com.project.traffic_enforcement.dto.PaystackInitializeResponse;
+import com.project.traffic_enforcement.dto.PaystackVerifyResponse;
 import com.project.traffic_enforcement.models.enums.PaymentTotalPeriod;
 import com.project.traffic_enforcement.services.PaymentService;
 
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/payments")
-@RequiredArgsConstructor
 public class PaymentController {
 
     private final PaymentService paymentService;
+
+    PaymentController(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('OWNERS')")
     public ResponseEntity<PaymentResponse> createPayment(@RequestBody PaymentRequest request) {
         return ResponseEntity.ok(paymentService.createPayment(request));
+    }
+
+    @PostMapping("/initialize")
+    @PreAuthorize("hasRole('OWNERS')")
+    public ResponseEntity<PaystackInitializeResponse> initializePaystackPayment(
+            @RequestBody PaystackInitializeRequest request) {
+        return ResponseEntity.ok(paymentService.initializePaystackPayment(request));
+    }
+
+    @GetMapping("/verify")
+    @PreAuthorize("hasRole('OWNERS')")
+    public ResponseEntity<PaystackVerifyResponse> verifyPaystackPayment(@RequestParam String reference) {
+        return ResponseEntity.ok(paymentService.verifyPaystackPayment(reference));
     }
 
     @GetMapping
