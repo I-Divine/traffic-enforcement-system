@@ -1,5 +1,6 @@
 package com.project.traffic_enforcement.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,4 +14,6 @@ import com.project.traffic_enforcement.models.Users;
 public interface OfficersRepository extends JpaRepository<Officers, UUID> {
     Optional<Officers> findByBadgeNumber(String badgeNumber);
     Optional<Officers> findByUsers(Users users);
+    List<Officers> findByDepartmentIgnoreCase(String department);
+    List<Officers> findByAssignmentAreaIgnoreCase(String assignmentArea);
 }

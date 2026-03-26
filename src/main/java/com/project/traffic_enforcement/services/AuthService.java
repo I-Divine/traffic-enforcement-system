@@ -8,9 +8,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.project.traffic_enforcement.dto.AuthResponse;
+import com.project.traffic_enforcement.dto.ChangePasswordResponse;
 import com.project.traffic_enforcement.dto.LoginRequest;
 import com.project.traffic_enforcement.dto.OfficerDetailsRequest;
 import com.project.traffic_enforcement.dto.OwnerDetailsRequest;
@@ -25,7 +27,6 @@ import com.project.traffic_enforcement.repository.UsersRepository;
 import com.project.traffic_enforcement.security.config.UserDetails;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -74,6 +75,7 @@ public class AuthService {
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
         user.setPhoneNumber(request.getPhoneNumber());
+        user.setProfilePictureUrl(request.getProfilePictureUrl());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(role);
         user.setCreatedAt(new Date());
@@ -119,5 +121,19 @@ public class AuthService {
 
         String token = jwtService.generateToken(UserDetails.build(user));
         return AuthResponse.from(user, token);
+    }
+
+    public ChangePasswordResponse changePassword(String oldPassword, String newPassword) {
+        UserDetails userDetails = (UserDetails) org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Users user = usersRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found -> " + userDetails.getUsername()));
+
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Old password is incorrect");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        usersRepository.save(user);
+        return new ChangePasswordResponse();
     }
 }

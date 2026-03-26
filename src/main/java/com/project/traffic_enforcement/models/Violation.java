@@ -3,7 +3,12 @@ package com.project.traffic_enforcement.models;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.project.traffic_enforcement.models.enums.ViolationStatus;
+import com.project.traffic_enforcement.models.enums.ViolationType;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,7 +36,11 @@ public class Violation {
     private LocalDateTime violationDate;
     private String gpsCoordinates;
     private Float fineAmount;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ViolationType violationType;
+    private String description;
+    @Enumerated(EnumType.STRING)
+    private ViolationStatus status;
     private String state;
     private String lga;
 }

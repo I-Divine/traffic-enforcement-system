@@ -15,6 +15,7 @@ public class UserProfileResponse {
     private String email;
     private String phoneNumber;
     private Roles role;
+    private String profilePictureUrl;
     private Date lastLogin;
     private Date createdAt;
     private OwnerDetailsResponse ownerDetails;

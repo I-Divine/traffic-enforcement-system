@@ -1,0 +1,62 @@
+{
+  "owner": {
+    "firstName": "John",
+    "lastName": "Smith",
+    "email": "john.smith@email.com",
+    "phoneNumber": "+1-555-0101",
+    "password": "SecurePass123!",
+    "role": "OWNERS",
+    "ownerDetails": {
+      "address": "123 Main Street",
+      "city": "New York",
+      "state": "NY",
+      "driversLicenseNumber": "DL123456789"
+    },
+    "officerDetails": null
+  },
+  "road_officer": {
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "email": "jane.doe@police.gov",
+    "phoneNumber": "+1-555-0102",
+    "password": "SecurePass123!",
+    "role": "ROAD_OFFICERS",
+    "officerDetails": {
+      "badgeNumber": "RO-2024-001",
+      "department": "Traffic Enforcement Division",
+      "rank": "Officer",
+      "assignmentArea": "Downtown District"
+    },
+    "ownerDetails": null
+  },
+  "appeal_officer": {
+    "firstName": "Michael",
+    "lastName": "Johnson",
+    "email": "michael.johnson@appeals.gov",
+    "phoneNumber": "+1-555-0103",
+    "password": "SecurePass123!",
+    "role": "APPEAL_OFFICERS",
+    "officerDetails": {
+      "badgeNumber": "AO-2024-001",
+      "department": "Appeals and Disputes",
+      "rank": "Senior Officer",
+      "assignmentArea": "City-wide"
+    },
+    "ownerDetails": null
+  },
+  "admin": {
+    "firstName": "Sarah",
+    "lastName": "Wilson",
+    "email": "admin@traffic.gov",
+    "phoneNumber": "+1-555-0104",
+    "password": "SecurePass123!",
+    "role": "ADMIN",
+    "officerDetails": {
+      "badgeNumber": "ADMIN-2024-001",
+      "department": "Administration",
+      "rank": "Administrator",
+      "assignmentArea": "Headquarters"
+    },
+    "ownerDetails": null
+  }
+}

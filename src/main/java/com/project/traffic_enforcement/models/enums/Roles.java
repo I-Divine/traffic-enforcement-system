@@ -4,5 +4,6 @@ public enum Roles {
     OWNERS,
     ROAD_OFFICERS,
     APPEAL_OFFICERS,
+    REGISTRATION_OFFICERS,
     ADMIN,
 }

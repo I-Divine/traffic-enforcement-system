@@ -1,6 +1,7 @@
 package com.project.traffic_enforcement.services;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -9,8 +10,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.project.traffic_enforcement.dto.VehicleRegistrationRequest;
 import com.project.traffic_enforcement.dto.VehicleRequest;
 import com.project.traffic_enforcement.dto.VehicleResponse;
+import com.project.traffic_enforcement.dto.VehicleUpdateRequest;
 import com.project.traffic_enforcement.models.Owners;
 import com.project.traffic_enforcement.models.Users;
 import com.project.traffic_enforcement.models.Vehicles;
@@ -42,6 +45,75 @@ public class VehiclesService {
         vehicle.setColor(request.getColor());
         vehicle.setRegistrationDate(request.getRegistrationDate());
         vehicle.setRegistrationExpiry(request.getRegistrationExpiry());
+
+        Vehicles saved = vehiclesRepository.save(vehicle);
+        return mapToResponse(saved);
+    }
+
+    public VehicleResponse registerVehicle(VehicleRegistrationRequest request) {
+        if (request.getOwnerId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Owner ID is required");
+        }
+        if (request.getPlateNumber() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Plate number is required");
+        }
+
+        Owners owner = ownersRepository.findById(request.getOwnerId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Owner not found"));
+
+        vehiclesRepository.findByPlateNumber(request.getPlateNumber())
+                .ifPresent(existing -> {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Plate number already in use");
+                });
+
+        Vehicles vehicle = new Vehicles();
+        vehicle.setOwner(owner);
+        vehicle.setPlateNumber(request.getPlateNumber());
+        vehicle.setMake(request.getMake());
+        vehicle.setModel(request.getModel());
+        vehicle.setYear(request.getYear());
+        vehicle.setColor(request.getColor());
+        vehicle.setRegistrationDate(request.getRegistrationDate());
+        vehicle.setRegistrationExpiry(request.getRegistrationExpiry());
+
+        Vehicles saved = vehiclesRepository.save(vehicle);
+        return mapToResponse(saved);
+    }
+
+    public VehicleResponse updateVehicle(UUID vehicleId, VehicleUpdateRequest request) {
+        if (vehicleId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vehicle ID is required");
+        }
+
+        Vehicles vehicle = vehiclesRepository.findById(vehicleId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehicle not found"));
+
+        if (request.getPlateNumber() != null && !request.getPlateNumber().equals(vehicle.getPlateNumber())) {
+            vehiclesRepository.findByPlateNumber(request.getPlateNumber())
+                    .filter(existing -> !existing.getVehicleId().equals(vehicle.getVehicleId()))
+                    .ifPresent(existing -> {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Plate number already in use");
+                    });
+            vehicle.setPlateNumber(request.getPlateNumber());
+        }
+        if (request.getMake() != null) {
+            vehicle.setMake(request.getMake());
+        }
+        if (request.getModel() != null) {
+            vehicle.setModel(request.getModel());
+        }
+        if (request.getYear() != null) {
+            vehicle.setYear(request.getYear());
+        }
+        if (request.getColor() != null) {
+            vehicle.setColor(request.getColor());
+        }
+        if (request.getRegistrationDate() != null) {
+            vehicle.setRegistrationDate(request.getRegistrationDate());
+        }
+        if (request.getRegistrationExpiry() != null) {
+            vehicle.setRegistrationExpiry(request.getRegistrationExpiry());
+        }
 
         Vehicles saved = vehiclesRepository.save(vehicle);
         return mapToResponse(saved);

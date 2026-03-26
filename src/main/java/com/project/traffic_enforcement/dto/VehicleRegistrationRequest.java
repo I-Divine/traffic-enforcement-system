@@ -1,0 +1,18 @@
+package com.project.traffic_enforcement.dto;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import lombok.Data;
+
+@Data
+public class VehicleRegistrationRequest {
+    private UUID ownerId;
+    private String plateNumber;
+    private String make;
+    private String model;
+    private String year;
+    private String color;
+    private LocalDateTime registrationDate;
+    private LocalDateTime registrationExpiry;
+}

@@ -1,11 +1,18 @@
 package com.project.traffic_enforcement.models;
 
-import com.project.traffic_enforcement.models.enums.Roles;
-import jakarta.persistence.*;
-import lombok.Data;
-
 import java.util.Date;
 import java.util.UUID;
+
+import com.project.traffic_enforcement.models.enums.Roles;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Data;
 
 @Entity
 @Data
@@ -34,6 +41,7 @@ public class Users {
     @Enumerated(EnumType.STRING)
     private Roles role;
 
+    private String profilePictureUrl;
 
     private Date lastLogin;
 

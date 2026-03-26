@@ -51,6 +51,7 @@ public class OwnerLookupService {
 
     private OwnerDetailsResponse mapOwnerDetails(Owners owner) {
         OwnerDetailsResponse details = new OwnerDetailsResponse();
+        
         details.setAddress(owner.getAddress());
         details.setCity(owner.getCity());
         details.setState(owner.getState());

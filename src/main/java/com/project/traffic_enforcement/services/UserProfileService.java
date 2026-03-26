@@ -35,8 +35,9 @@ public class UserProfileService {
         }
 
         String email = resolveEmail(authentication);
+        System.out.println("Resolved email: " + email); // Debugging statement
         Users user = usersRepository.findByEmail(email)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found : "+email));
 
         return buildProfile(user);
     }
@@ -57,6 +58,7 @@ public class UserProfileService {
         response.setEmail(user.getEmail());
         response.setPhoneNumber(user.getPhoneNumber());
         response.setRole(user.getRole());
+        response.setProfilePictureUrl(user.getProfilePictureUrl());
         response.setLastLogin(user.getLastLogin());
         response.setCreatedAt(user.getCreatedAt());
 

@@ -13,6 +13,7 @@ public class AuthResponse {
     private UUID userId;
     private String email;
     private Roles role;
+    private String profilePictureUrl;
 
     public static AuthResponse from(Users user, String token) {
         AuthResponse response = new AuthResponse();
@@ -20,6 +21,7 @@ public class AuthResponse {
         response.setUserId(user.getUserId());
         response.setEmail(user.getEmail());
         response.setRole(user.getRole());
+        response.setProfilePictureUrl(user.getProfilePictureUrl());
         return response;
     }
 }
